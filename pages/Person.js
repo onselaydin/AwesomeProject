@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, Modal } from 'react-native';
+import { StyleSheet, View, Modal,Alert } from 'react-native';
 import {TextInput,Button} from 'react-native-paper';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+
 
 const Person = ()=>{
     const [Name,setName] = useState("")
@@ -9,6 +12,35 @@ const Person = ()=>{
     const [Salary,setSalary] = useState("")
     const [Picture,setPicture] = useState("")
     const [modal,setModal] = useState(false)
+
+    const pickFromGallery = async ()=>{
+        const {granted} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+        if(granted){
+            let data = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes:ImagePicker.MediaTypeOptions.Images,
+                allowsEditing:true,
+                aspect:[1,1],
+                quality:0.5
+            })
+            console.log(data);
+        }else{
+            Alert.alert("Bu işlem için izin vermeniz gerkli.")
+        }
+    }
+    const pickFromCamera = async ()=>{
+        const {granted} = await Permissions.askAsync(Permissions.CAMERA)
+        if(granted){
+            let data = await ImagePicker.launchCameraAsync({
+                mediaTypes:ImagePicker.MediaTypeOptions.Images,
+                allowsEditing:true,
+                aspect:[1,1],
+                quality:0.5
+            })
+            console.log(data);
+        }else{
+            Alert.alert("Bu işlem için izin vermeniz gerkli.")
+        }
+    }
 
     return(
         <View style={styles.root}>
@@ -67,10 +99,10 @@ const Person = ()=>{
                 >
                 <View style={styles.modalView}>
                     <View style={styles.modalButtonView}>
-                        <Button icon="camera" mode="contained" theme={theme} onPress={() => console.log("press camera")}>
+                        <Button icon="camera" mode="contained" theme={theme} onPress={() => pickFromCamera()}>
                             camera
                         </Button>
-                        <Button icon="image-area" mode="contained" theme={theme} onPress={() => console.log("press camera")}>
+                        <Button icon="image-area" mode="contained" theme={theme} onPress={() => pickFromGallery()}>
                             gallery
                         </Button>
 

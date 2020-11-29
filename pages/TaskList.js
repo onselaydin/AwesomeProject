@@ -45,12 +45,11 @@ const TaskList = ({navigation}) => {
         }}
         keyExtractor={item=>item.id}
       />
-      <FAB onPress={()=>navigation.navigate("Task")}
+      <FAB onPress={()=>navigation.navigate("Person")}
         style={styles.fab}
         small={false}
         icon="plus"
         theme={{colors:{accent:"blue"}}}
-        onPress={()=> console.log('Pressed')}
         />
     </View>
   );
