@@ -6,7 +6,7 @@ export default class Login extends React.Component {
   //let [email, password] = useState("");
   state = { email:"",password:"" }
   clickLogin(){
-    this.props.navigation.navigate('Profile');
+    this.props.navigation.navigate('TaskList');
   }
   render(){
   return (

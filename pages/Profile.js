@@ -4,16 +4,20 @@ import { LinearGradient } from 'expo-linear-gradient';
 import {Title,Card, Button} from 'react-native-paper';
 import { Ionicons,MaterialIcons,Entypo } from '@expo/vector-icons';
 
-const openDial=()=>{
-    if(Platform.OS === "android"){
-        Linking.openURL("tel:05323456758")
-    }
-    else{
-        Linking.openURL("telprompt:05323456758")
-    }
-}
 
-const Profile = ()=>{
+
+
+const Profile = (props)=>{
+    //alttaki satır ile TaskList den seçilen kaydın detayını getiriyoruz.
+    const {id,name,email,salary,phone,position,picture,taskcomment}= props.route.params.item
+    const openDial=()=>{
+        if(Platform.OS === "android"){
+            Linking.openURL("tel:05323456758")
+        }
+        else{
+            Linking.openURL("telprompt:05323456758")
+        }
+    }
     return (
         <View style={styles.root}>
             <LinearGradient
@@ -23,31 +27,31 @@ const Profile = ()=>{
             <View style={{alignItems:"center"}}>
                 <Image
                     style={{width:140, height:140,borderRadius:140/2,marginTop:-50}}
-                    source={{uri:"https://images.unsplash.com/photo-1564931768869-c66430fe1162?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80"}}
+                    source={{uri:picture}}
                 />
             </View>
            <View style={{alignItems:"center", margin:7}}>
-               <Title>Önsel AYDIN</Title>
-               <Text style={styles.mytext}>Developer</Text>
+               <Title>{name}</Title>
+            <Text style={styles.mytext}>{position}</Text>
            </View>
            <Card style={styles.myCard} onPress={()=>{
                Linking.openURL("mailto:onselaydin@gmail.com")
            }}>
                 <View style={styles.cardContent}>
                     <MaterialIcons name="email" size={32} color="green" />
-                    <Text style={styles.mytext}>onselaydin@gmail.com</Text>
+                    <Text style={styles.mytext}>{email}</Text>
                 </View>
            </Card>
            <Card style={styles.myCard}>
                 <View style={styles.cardContent} onPress={()=>openDial()}>
                     <Entypo name="phone" size={32} color="green" />
-                    <Text style={styles.mytext}>123456889</Text>
+                    <Text style={styles.mytext}>{phone}</Text>
                 </View>
            </Card>
            <Card style={styles.myCard}>
                 <View style={styles.cardContent}>
                     <MaterialIcons name="attach-money" size={32} color="green" />
-                    <Text style={styles.mytext}>10 TL</Text>
+                     <Text style={styles.mytext}>{salary}</Text>
                 </View>
            </Card>
            <View style={{flexDirection:"row", justifyContent:"space-around", padding:10}}>
