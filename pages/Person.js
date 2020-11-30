@@ -10,8 +10,32 @@ const Person = ()=>{
     const [Phone,setPhone] = useState("")
     const [Email,setEmail] = useState("")
     const [Salary,setSalary] = useState("")
+    const [Position,setPosition] = useState("")
     const [Picture,setPicture] = useState("")
     const [modal,setModal] = useState(false)
+
+    const submitData = ()=>{
+        console.log('test')
+        fetch("http://192.168.1.37:3000/send-data",{
+            method:"post",
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                name:Name,
+                phone:Phone,
+                email:Email,
+                salary:Salary,
+                picture:Picture,
+                position:Position,
+
+            })
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+        })
+    }
 
     const pickFromGallery = async ()=>{
         const {granted} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
@@ -103,6 +127,14 @@ const Person = ()=>{
                 mode="outlined"
                 onChangeText={text => setSalary(text)}
             />
+            <TextInput
+                label='Position'
+                style={styles.inputStyle}
+                value={Position}
+                theme={theme}
+                mode="outlined"
+                onChangeText={text => setPosition(text)}
+            />
 
             <Button style={styles.inputStyle} 
                     icon={Picture==""?"upload":"check"} 
@@ -116,7 +148,7 @@ const Person = ()=>{
                     icon="content-save" 
                     mode="contained" 
                     theme={theme}
-                    onPress={() => console.log("save")}>
+                    onPress={() => submitData()}>
                 Save Image
             </Button>
 
