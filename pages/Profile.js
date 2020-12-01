@@ -2,20 +2,20 @@ import React from 'react';
 import { StyleSheet, Text, View, Image,Linking,Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import {Title,Card, Button} from 'react-native-paper';
-import { Ionicons,MaterialIcons,Entypo } from '@expo/vector-icons';
+import { MaterialIcons,Entypo } from '@expo/vector-icons';
 
 
 
 
 const Profile = (props)=>{
     //alttaki satır ile TaskList den seçilen kaydın detayını getiriyoruz.
-    const {id,name,email,salary,phone,position,picture,taskcomment}= props.route.params.item
+    const {_id,name,email,salary,phone,position,picture,taskcomment}= props.route.params.item
     const openDial=()=>{
         if(Platform.OS === "android"){
-            Linking.openURL("tel:05323456758")
+            Linking.openURL(`tel:${phone}`)
         }
         else{
-            Linking.openURL("telprompt:05323456758")
+            Linking.openURL(`telprompt:${phone}`)
         }
     }
     return (
@@ -35,7 +35,7 @@ const Profile = (props)=>{
             <Text style={styles.mytext}>{position}</Text>
            </View>
            <Card style={styles.myCard} onPress={()=>{
-               Linking.openURL("mailto:onselaydin@gmail.com")
+               Linking.openURL(`mailto:${email}`)
            }}>
                 <View style={styles.cardContent}>
                     <MaterialIcons name="email" size={32} color="green" />

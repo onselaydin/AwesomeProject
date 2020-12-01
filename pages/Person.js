@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 
 
-const Person = ()=>{
+const Person = (navgation)=>{
     const [Name,setName] = useState("")
     const [Phone,setPhone] = useState("")
     const [Email,setEmail] = useState("")
@@ -15,8 +15,9 @@ const Person = ()=>{
     const [modal,setModal] = useState(false)
 
     const submitData = ()=>{
-        console.log('test')
-        fetch("http://192.168.1.37:3000/send-data",{
+        //console.log('test')
+        //fetch("http://192.168.1.37:3000/send-data",{
+          fetch("http://10.61.35.32:3000/send-data",{
             method:"post",
             headers:{
                 'Content-Type':'application/json'
@@ -33,7 +34,11 @@ const Person = ()=>{
         })
         .then(res=>res.json())
         .then(data=>{
-            console.log(data)
+            //console.log(data)
+            Alert.alert(`${data.name} is saved success`)
+            navgation.navigate("Login")
+        }).catch(err=>{
+            Alert.alert('Kaydetmede bir sorun var.')
         })
     }
 
@@ -87,92 +92,98 @@ const Person = ()=>{
             body:data
         }).then(res=>res.json()).
         then(data=>{
-            console.log(data)
+            //console.log(data)
             setPicture(data.url)
             setModal(false)
+        }).catch(err=>{
+            Alert.alert('Resim göndermede sorun var.')
         })
     }
 
     return(
+        // <KeyboardAvoidingView behavior="position" style={styles.root}>
         <View style={styles.root}>
-            <TextInput
-                label='Name'
-                style={styles.inputStyle}
-                value={Name}
-                theme={theme}
-                mode="outlined"
-                onChangeText={text => setName(text)}
-            />
-            <TextInput
-                label='Phone'
-                style={styles.inputStyle}
-                value={Phone}
-                theme={theme}
-                mode="outlined"
-                onChangeText={text => setPhone(text)}
-            />
-            <TextInput
-                label='Email'
-                style={styles.inputStyle}
-                value={Email}
-                theme={theme}
-                mode="outlined"
-                onChangeText={text => setEmail(text)}
-            />
-            <TextInput
-                label='Salary'
-                style={styles.inputStyle}
-                value={Salary}
-                theme={theme}
-                mode="outlined"
-                onChangeText={text => setSalary(text)}
-            />
-            <TextInput
-                label='Position'
-                style={styles.inputStyle}
-                value={Position}
-                theme={theme}
-                mode="outlined"
-                onChangeText={text => setPosition(text)}
-            />
-
-            <Button style={styles.inputStyle} 
-                    icon={Picture==""?"upload":"check"} 
-                    //icon="check"
-                    mode="contained" 
+            
+                <TextInput
+                    label='Name'
+                    style={styles.inputStyle}
+                    value={Name}
                     theme={theme}
-                    onPress={() => setModal(true)}>
-                Upload Image
-            </Button>
-            <Button style={styles.inputStyle} 
-                    icon="content-save" 
-                    mode="contained" 
+                    mode="outlined"
+                    onChangeText={text => setName(text)}
+                />
+                <TextInput
+                    label='Phone'
+                    style={styles.inputStyle}
+                    value={Phone}
                     theme={theme}
-                    onPress={() => submitData()}>
-                Save Image
-            </Button>
+                    mode="outlined"
+                    onChangeText={text => setPhone(text)}
+                />
+                <TextInput
+                    label='Email'
+                    style={styles.inputStyle}
+                    value={Email}
+                    theme={theme}
+                    mode="outlined"
+                    onChangeText={text => setEmail(text)}
+                />
+                <TextInput
+                    label='Salary'
+                    style={styles.inputStyle}
+                    value={Salary}
+                    theme={theme}
+                    mode="outlined"
+                    onChangeText={text => setSalary(text)}
+                />
+                <TextInput
+                    label='Position'
+                    style={styles.inputStyle}
+                    value={Position}
+                    theme={theme}
+                    mode="outlined"
+                    onChangeText={text => setPosition(text)}
+                />
 
-            <Modal  animationType="slide" transparent={true} visible={modal}
-                onRequestClose={()=>{
-                    setModal(false)
-                }}
-                >
-                <View style={styles.modalView}>
-                    <View style={styles.modalButtonView}>
-                        <Button icon="camera" mode="contained" theme={theme} onPress={() => pickFromCamera()}>
-                            camera
-                        </Button>
-                        <Button icon="image-area" mode="contained" theme={theme} onPress={() => pickFromGallery()}>
-                            gallery
-                        </Button>
+                <Button style={styles.inputStyle} 
+                        icon={Picture==""?"upload":"check"} 
+                        //icon="check"
+                        mode="contained" 
+                        theme={theme}
+                        onPress={() => setModal(true)}>
+                    Upload Image
+                </Button>
+                <Button style={styles.inputStyle} 
+                        icon="content-save" 
+                        mode="contained" 
+                        theme={theme}
+                        onPress={() => submitData()}>
+                    Save
+                </Button>
 
+                <Modal  animationType="slide" transparent={true} visible={modal}
+                    onRequestClose={()=>{
+                        setModal(false)
+                    }}
+                    >
+                    <View style={styles.modalView}>
+                        <View style={styles.modalButtonView}>
+                            <Button icon="camera" mode="contained" theme={theme} onPress={() => pickFromCamera()}>
+                                camera
+                            </Button>
+                            <Button icon="image-area" mode="contained" theme={theme} onPress={() => pickFromGallery()}>
+                                gallery
+                            </Button>
+
+                        </View>
+                        <Button onPress={() => setModal(false)}>
+                                iptal
+                            </Button>
                     </View>
-                    <Button onPress={() => setModal(false)}>
-                            iptal
-                        </Button>
-                </View>
-            </Modal>
+                </Modal>
+            
         </View>
+        // </KeyboardAvoidingView>
     )
 }
 
