@@ -3,9 +3,15 @@ import { StyleSheet, View, Modal,Alert } from 'react-native';
 import {TextInput,Button} from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
+import { roundToNearestPixel } from 'react-native/Libraries/Utilities/PixelRatio';
 
 
-const Person = (navgation)=>{
+const Person = ({navigation,route})=>{
+
+    if(route.params){
+        console.log(route.params)
+    }
+
     const [Name,setName] = useState("")
     const [Phone,setPhone] = useState("")
     const [Email,setEmail] = useState("")
@@ -16,8 +22,8 @@ const Person = (navgation)=>{
 
     const submitData = ()=>{
         //console.log('test')
-        //fetch("http://192.168.1.37:3000/send-data",{
-          fetch("http://10.61.35.32:3000/send-data",{
+        fetch("http://192.168.1.37:3000/send-data",{
+          //fetch("http://10.61.35.32:3000/send-data",{
             method:"post",
             headers:{
                 'Content-Type':'application/json'
@@ -36,9 +42,9 @@ const Person = (navgation)=>{
         .then(data=>{
             //console.log(data)
             Alert.alert(`${data.name} is saved success`)
-            navgation.navigate("Login")
+            navigation.navigate("TaskList")
         }).catch(err=>{
-            Alert.alert('Kaydetmede bir sorun var.')
+            Alert.alert(`${err} Kaydetmede sorun var.`)
         })
     }
 

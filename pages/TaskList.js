@@ -19,7 +19,8 @@ const TaskList = ({navigation}) => {
   const [loading, setLoading] = useState(true)
 
   const fetchData=()=>{
-    fetch("http://10.61.35.32:3000/")
+    fetch("http://192.168.1.37:3000/")
+    //fetch("http://10.61.35.32:3000/")
     .then(res=>res.json())
     .then(results=>{
       setData(results)
